@@ -1,0 +1,39 @@
+﻿@using ViewModels
+@model List<SubmissionListViewModel>
+@{
+    ViewBag.Title = "Unpopular Opinions";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<head><title>@ViewBag.Title</title></head>
+@foreach (SubmissionListViewModel submissionModel in Model)
+{
+<div class="card">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-1">
+                <div class="btn-group-vertical">
+                    <form method="post" action="" class="btn">
+                        <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                        <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <h5 class="card-title">@submissionModel.Title</h5>
+                <h7 class="card-subtitle">Submitted by @submissionModel.AuthorName</h7>
+                <h7 class="card-subtitle"><a href="@Url.Action("SubmissionDetails","Submission",new { id = submissionModel.Id })"></a></h7>
+                <button class="btn btn-light" data-toggle="collapse" href="#collapsible1">
+                    <img src="~/Static/collapsible.png" class="img-fluid" style="height:20px" />
+                </button>
+                <div class="collapse expanded-content border border-primary rounded" id="collapsible1">
+                <p class="expanded-content-text">@submissionModel.Content</p></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+}
+<script src="~/Static/SubmissionListScript.js"></script>
+<link href="~/Static/SubmissionListStyle.css" rel="stylesheet" />
