@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ViewModels;
+using Microsoft.AspNet.Identity;
+
 namespace Presentation.Controllers
 {
     public class SubmissionController : Controller
@@ -16,6 +18,12 @@ namespace Presentation.Controllers
         {
             this._submissionService = new SubmissionService();
             this._commentService = new CommentService();
+        }
+
+        [HttpGet]
+        public ActionResult LogInWithGoogle(string redirectUrl)
+        {
+            return View();
         }
 
         [HttpGet]
@@ -51,6 +59,7 @@ namespace Presentation.Controllers
         [HttpPost]
         public ActionResult EditSubmission(EditSubmissionViewModel submission)
         {
+            
             this._submissionService.UpdateSubmission(submission);
 
             return RedirectToAction("SubmissionList");
