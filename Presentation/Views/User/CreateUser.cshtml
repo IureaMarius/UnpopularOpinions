@@ -1,0 +1,18 @@
+﻿@using ViewModels
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@using Microsoft.AspNet.Identity
+@model CreateUserViewModel
+
+<div class="w-50 m-auto">
+    <form method="post" action="@Url.Action("CreateUser", "User")">
+        <div class="form-group">
+            <label>Username</label>
+            <input name="Name" class="form-control" />
+            <input type="hidden" name="Id" value="@User.Identity.GetUserId()" />
+            <input type="submit" value="Save" class="btn btn-success" />
+        </div>
+    </form>
+</div>

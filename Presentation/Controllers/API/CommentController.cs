@@ -18,11 +18,11 @@ namespace Presentation.Controllers.API
             this._commentService = new CommentService();
         }
         [HttpPut]
-        public IHttpActionResult Put([FromBody]EditCommentViewModel editCommentViewModel)
+        public IHttpActionResult Put([FromBody]CommentViewModel CommentViewModel)
         {
             try
             {
-                this._commentService.UpdateComment(editCommentViewModel);
+                this._commentService.UpdateComment(CommentViewModel);
                 return Ok();
             }
             catch(InvalidOperationException ex)

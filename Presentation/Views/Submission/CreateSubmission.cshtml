@@ -2,21 +2,24 @@
 @{
     ViewBag.Title = "CreateSubmission";
     Layout = "~/Views/Shared/Layout.cshtml";
-}
 
+}
+@using Microsoft.AspNet.Identity
+<title>@User.Identity.GetUserId()</title>
 <div class="w-50 m-auto">
 
     <form method="post" action="@Url.Action("CreateSubmission","Submission")">
 
         <div class="form-group">
             <label>Title</label>
-            <input name="Title" class="form-control"/>
+            <input name="Title" class="form-control" />
         </div>
 
         <div class="form-group">
             <label>Content</label>
             <textarea rows="5" cols="50" name="Content"></textarea>
         </div>
+        <input type="hidden" name="AuthorId" value="@User.Identity.GetUserId()" />
         <input type="submit" value="Save" class="btn btn-success" />
         <a href="@Url.Action("SubmissionList","Submission")" class="btn btn-info">Cancel</a>
     </form>

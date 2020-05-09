@@ -53,11 +53,15 @@
     <Compile Include="CommentViewModel.cs" />
     <Compile Include="CreateCommentViewModel.cs" />
     <Compile Include="CreateSubmissionViewModel.cs" />
+    <Compile Include="CreateUserViewModel.cs" />
     <Compile Include="EditCommentViewModel.cs" />
     <Compile Include="EditSubmissionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SubmissionListViewModel.cs" />
     <Compile Include="SubmissionViewModel.cs" />
+    <Compile Include="UserCommentsViewModel.cs" />
+    <Compile Include="UserSubmissionsViewModel.cs" />
+    <Compile Include="VoteViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

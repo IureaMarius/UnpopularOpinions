@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using ViewModels;
 using Microsoft.AspNet.Identity;
+using Microsoft.Ajax.Utilities;
+
 
 namespace Presentation.Controllers
 {
@@ -13,22 +15,20 @@ namespace Presentation.Controllers
     {
         private readonly SubmissionService _submissionService;
         private readonly CommentService _commentService;
+        private readonly UserService _userService;
 
         public SubmissionController()
         {
             this._submissionService = new SubmissionService();
             this._commentService = new CommentService();
-        }
-
-        [HttpGet]
-        public ActionResult LogInWithGoogle(string redirectUrl)
-        {
-            return View();
+            this._userService = new UserService();
         }
 
         [HttpGet]
         public ActionResult SubmissionList(int skipNrOfSubmissions = 0)
         {
+            if (!isLoggedRegisteredInDb())
+                return RedirectToAction("CreateUser", "User");
             List<SubmissionListViewModel> submissions = this._submissionService.Get100Submissions(skipNrOfSubmissions);
 
             return View(submissions);
@@ -36,6 +36,9 @@ namespace Presentation.Controllers
         [HttpGet]
         public ActionResult SubmissionDetails(Guid id)
         {
+            
+            if (!isLoggedRegisteredInDb())
+                return RedirectToAction("CreateUser", "User");
             SubmissionViewModel submission = this._submissionService.GetSubmissionById(id);
 
             return View(submission);
@@ -57,10 +60,10 @@ namespace Presentation.Controllers
             return View(editViewModel);
         }
         [HttpPost]
-        public ActionResult EditSubmission(EditSubmissionViewModel submission)
+        public ActionResult EditSubmission(SubmissionViewModel submission)
         {
-            
-            this._submissionService.UpdateSubmission(submission);
+            if(Guid.Parse(User.Identity.GetUserId())==submission.AuthorId)
+                this._submissionService.UpdateSubmission(submission);
 
             return RedirectToAction("SubmissionList");
         }
@@ -80,6 +83,23 @@ namespace Presentation.Controllers
         {
             this._submissionService.DeleteSubmission(id);
             return RedirectToAction("SubmissionList");
+        }
+
+        //Helper function
+        public bool isLoggedRegisteredInDb()
+        {
+            if(User.Identity.GetUserId()==null)
+            {
+                return true; //isn't logged in
+            }
+            try
+            {
+                CreateUserViewModel userModel = _userService.GetUserById(Guid.Parse(User.Identity.GetUserId()));
+            }catch(InvalidOperationException)
+            {
+                return false;// logged with google but not registered
+            }
+            return true;// is logged and registered
         }
     }
 }

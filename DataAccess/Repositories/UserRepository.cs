@@ -40,6 +40,7 @@ namespace DataAccess.Repositories
 
             return foundUser;
         }
+            
         /// <summary>
         /// Add user to the in-memory collection
         /// </summary>

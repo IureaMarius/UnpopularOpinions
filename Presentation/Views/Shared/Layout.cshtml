@@ -4,12 +4,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <title>@User.Identity.GetUserId()</title>
 </head>
 <body>
 
 
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Unpopular Opinions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,24 +22,26 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Messages<span class="sr-only">(current)</span></a>
                 </li>
-                </ul>
+            </ul>
             <div class="form-inline my-2 my-lg-0">
                 <a href="@Url.Action("CreateSubmission","Submission")" class="btn btn-primary">Make a submission</a>
                 @if (Request.IsAuthenticated)
                 {
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
-                         @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()
 
                         <button type="submit" class="btn btn-primary">Log Off</button>
 
                     }
                 }
-                else {
+                else
+                {
 
-                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl ="/"})) {
+                    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "/" }))
+                    {
                         @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-primary" name="provider" id="Google" value="Google">Log in with Google</button>
+                        <button type="submit" class="btn btn-primary" name="provider" id="Google" value="Google">Log in with Google</button>
                     }
                 }
 
@@ -50,8 +51,9 @@
     <div class="container mt-3">
         @RenderBody()
     </div>
-
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.min.js"></script>
     @RenderSection("Scripts", false)
 </body>

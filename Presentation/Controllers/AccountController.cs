@@ -54,13 +54,14 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/Login
+        /*
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
+        */
         //
         // POST: /Account/Login
         [HttpPost]
@@ -136,12 +137,13 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/Register
+        /*
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
-
+        */
         //
         // POST: /Account/Register
         [HttpPost]
@@ -174,6 +176,7 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/ConfirmEmail
+        /*
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -184,15 +187,16 @@ namespace Presentation.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-
+        */
         //
+        /*
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
-
+        */
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -223,12 +227,12 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/ForgotPasswordConfirmation
+        /*
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
-
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -237,6 +241,7 @@ namespace Presentation.Controllers
             return code == null ? View("Error") : View();
         }
 
+        */
         //
         // POST: /Account/ResetPassword
         [HttpPost]
@@ -265,12 +270,14 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/ResetPasswordConfirmation
+        /*
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
+        */
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -284,6 +291,7 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/SendCode
+        /*
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -296,7 +304,7 @@ namespace Presentation.Controllers
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
+        */
         //
         // POST: /Account/SendCode
         [HttpPost]
@@ -325,7 +333,7 @@ namespace Presentation.Controllers
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("SubmissionList","Submission");
             }
 
             // Sign in the user with this external login provider if the user already has a login
@@ -346,7 +354,6 @@ namespace Presentation.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
         //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
@@ -397,12 +404,14 @@ namespace Presentation.Controllers
 
         //
         // GET: /Account/ExternalLoginFailure
+        /*
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
+        */
         protected override void Dispose(bool disposing)
         {
             if (disposing)

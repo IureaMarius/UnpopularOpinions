@@ -41,9 +41,11 @@ namespace BusinessLogic.Services
                 {
                     Id = submissionEntity.Id,
                     Title = submissionEntity.Title,
+                    Content = submissionEntity.Content,
                     Upvotes = submissionEntity.Upvotes,
                     Downvotes = submissionEntity.Downvotes,
-                    AuthorId = submissionEntity.Author.Id
+                    AuthorId = submissionEntity.Author.Id,
+                    AuthorName = submissionEntity.Author.Name
                 }).ToList();
             return submissions;
         }
@@ -86,9 +88,7 @@ namespace BusinessLogic.Services
         /// <param name="submissionId"></param>
         public void DeleteSubmission(Guid submissionId)
         {
-            Submission submissionToDelete = this._submissionRepository.Query()
-                .Where(submission => submission.Id == submissionId)
-                .FirstOrDefault(); 
+            Submission submissionToDelete = this._submissionRepository.GetSubmissionById(submissionId);
                 
             if(submissionToDelete == null)
             {
@@ -103,11 +103,13 @@ namespace BusinessLogic.Services
         /// Updates existing submission
         /// </summary>
         /// <param name="submissionViewModel">The submission view model</param>
-        public void UpdateSubmission(EditSubmissionViewModel submissionViewModel)
+        public void UpdateSubmission(SubmissionViewModel submissionViewModel)
         {
-            Submission submissionEntityToUpdate = this._submissionRepository.GetSubmissionById(submissionViewModel.SubmissionId);
+            Submission submissionEntityToUpdate = this._submissionRepository.GetSubmissionById(submissionViewModel.Id);
             submissionEntityToUpdate.Title = submissionViewModel.Title;
             submissionEntityToUpdate.Content = submissionViewModel.Content;
+            submissionEntityToUpdate.Upvotes = submissionViewModel.Upvotes;
+            submissionEntityToUpdate.Downvotes = submissionViewModel.Downvotes;
 
             this._submissionRepository.SaveChanges();
         }
@@ -119,15 +121,14 @@ namespace BusinessLogic.Services
         /// <returns>The student view model object</returns>
         public SubmissionViewModel GetSubmissionById(Guid id)
         {
-            Submission submissionEntity = this._submissionRepository.Query()
-                .Where(sub => sub.Id == id)
-                .FirstOrDefault();
+            Submission submissionEntity = this._submissionRepository.GetSubmissionById(id);
+                
             if(submissionEntity == null)
             {
                 throw new InvalidOperationException($"Submision with id {id} not found");
             }
             List<CommentViewModel> Comments = _commentRepository.Query()
-                .Where(comm => comm.ParentSubmission == submissionEntity)
+                .Where(comm => comm.ParentSubmission.Id == submissionEntity.Id)
                 .Select(commentEntity => new CommentViewModel
                 {
                     Id = commentEntity.Id,
@@ -138,7 +139,7 @@ namespace BusinessLogic.Services
                     AuthorId = commentEntity.Author.Id,
                     NrOfReplies = commentEntity.NrOfReplies
                 }).ToList();
-            return new SubmissionViewModel
+            SubmissionViewModel submissionModel = new SubmissionViewModel
             {
                 Id = submissionEntity.Id,
                 Content = submissionEntity.Content,
@@ -150,6 +151,7 @@ namespace BusinessLogic.Services
                 Comments = Comments
 
             };
+            return submissionModel;
 
         }
 

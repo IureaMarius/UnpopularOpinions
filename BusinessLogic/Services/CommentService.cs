@@ -23,6 +23,20 @@ namespace BusinessLogic.Services
             this._commentRepository = new CommentRepository(currentContext);
             this._userRepository = new UserRepository(currentContext);
         }
+        public CommentViewModel GetCommentById(Guid id)
+        {
+            Comment commentEntity = this._commentRepository.GetCommentById(id);
+            CommentViewModel commentModel = new CommentViewModel
+            {
+                Id = commentEntity.Id,
+                Text = commentEntity.Text,
+                AuthorId = commentEntity.Author.Id,
+                AuthorName = commentEntity.Author.Name,
+                Upvotes = commentEntity.Upvotes,
+                Downvotes = commentEntity.Downvotes
+            };
+            return commentModel;
+        }
         /// <summary>
         /// Returns 100 comments made by a certain user
         /// </summary>
@@ -130,14 +144,17 @@ namespace BusinessLogic.Services
         /// Updates an existing comment
         /// </summary>
         /// <param name="commentViewModel">The comment view model</param>
-        public void UpdateComment(EditCommentViewModel commentViewModel)
+        public void UpdateComment(CommentViewModel commentViewModel)
         {
-            Comment commentEntityToUpdate = this._commentRepository.GetCommentById(commentViewModel.CommentId);
+            Comment commentEntityToUpdate = this._commentRepository.GetCommentById(commentViewModel.Id);
 
             if(commentEntityToUpdate == null)
             {
-                throw new InvalidOperationException($"Comment with id {commentViewModel.CommentId} not found");
+                throw new InvalidOperationException($"Comment with id {commentViewModel.Id} not found");
             }
+            commentEntityToUpdate.Upvotes = commentViewModel.Upvotes;
+            commentEntityToUpdate.Downvotes = commentViewModel.Downvotes;
+            
             commentEntityToUpdate.Text = commentViewModel.Text;
             this._commentRepository.SaveChanges();
         }
