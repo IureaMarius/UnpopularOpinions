@@ -68,6 +68,7 @@ namespace Presentation.Controllers
             return RedirectToAction("SubmissionList");
         }
         [HttpGet]
+        [Authorize]
         public ActionResult CreateSubmission()
         {
             return View();

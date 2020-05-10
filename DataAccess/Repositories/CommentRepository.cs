@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ namespace DataAccess.Repositories
         {
             Comment comment = _dbContext.Comments
                 .Where(comm => comm.Id == Id)
+                .Include(comm => comm.Author)
+                .Include(comm => comm.Replies)
                 .FirstOrDefault();
             
             if(comment==null)

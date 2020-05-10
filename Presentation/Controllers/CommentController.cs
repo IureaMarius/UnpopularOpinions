@@ -18,5 +18,12 @@ namespace Presentation.Controllers
             this._submissionService = new SubmissionService();
             this._commentService = new CommentService();
         }
+        [HttpGet]
+        public ActionResult CommentDetails(Guid id)
+        {
+            
+            CommentViewModel commentModel = this._commentService.GetCommentById(id);
+            return View(commentModel);
+        }
     }
 }

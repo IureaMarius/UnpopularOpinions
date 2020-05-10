@@ -70,6 +70,9 @@
     <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -176,6 +179,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\CommentController.cs" />
     <Compile Include="Controllers\API\VoteController.cs" />
@@ -312,6 +316,8 @@
     <Content Include="Static\downvote-hovered.png" />
     <Content Include="Static\downvote-pressed.png" />
     <Content Include="Static\downvote-unpressed.png" />
+    <Content Include="Static\SubmissionDetails.css" />
+    <Content Include="Static\SubmissionDetails.js" />
     <Content Include="Static\SubmissionListScript.js" />
     <Content Include="Static\SubmissionListStyle.css" />
     <Content Include="Static\upvote-hovered.png" />
@@ -367,10 +373,10 @@
     <Content Include="Views\User\AccountAlreadyHasName.cshtml" />
     <Content Include="Views\User\CreateUser.cshtml" />
     <Content Include="Views\Submission\SubmissionDetails.cshtml" />
+    <Content Include="Views\Comment\CommentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

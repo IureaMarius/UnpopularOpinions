@@ -1,10 +1,11 @@
 ﻿
 @{
-    ViewBag.Title = "SubmissionDetails";
+    ViewBag.Title = "CommentDetails";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
+
 @using ViewModels
-@model SubmissionViewModel
+@model CommentViewModel 
 @using Microsoft.AspNet.Identity
 <meta name="userId" id="userId" content="@User.Identity.GetUserId()"/>
 <div class="container w75">
@@ -23,11 +24,8 @@
                     </div>
                 </div>
                 <div class="col">
-                    <h5 class="card-title">@Model.Title</h5>
+                    <h5 class="card-title">@Model.Text</h5>
                     <h7 class="card-subtitle">Submitted by @Model.AuthorName</h7>
-                    <div class="expanded-content border border-primary rounded">
-                        <p class="expanded-content-text">@Model.Content</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -73,8 +71,8 @@
     </div>
 </div>
 
-    <div id="CommentsStart"><h3>Comments:</h3></div>
-    @foreach (CommentViewModel commentModel in Model.Comments)
+    <div id="CommentsStart"><h3>Replies:</h3></div>
+    @foreach (CommentViewModel commentModel in Model.Replies)
     {
         
         <div class="card AuthorIdHolder" id="@commentModel.AuthorId" >

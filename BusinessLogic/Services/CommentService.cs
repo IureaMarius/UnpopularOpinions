@@ -35,6 +35,20 @@ namespace BusinessLogic.Services
                 Upvotes = commentEntity.Upvotes,
                 Downvotes = commentEntity.Downvotes
             };
+                 List<CommentViewModel> Comments = _commentRepository.Query()
+                .Where(comm => comm.ParentSubmission.Id == commentEntity.Id)
+                .Select(commEntity => new CommentViewModel
+                {
+                    Id = commEntity.Id,
+                    Text = commEntity.Text,
+                    Upvotes = commEntity.Upvotes,
+                    Downvotes = commEntity.Downvotes,
+                    AuthorName = commEntity.Author.Name,
+                    AuthorId = commEntity.Author.Id,
+                    NrOfReplies = commEntity.NrOfReplies
+                }).ToList();
+
+            commentModel.Replies = Comments;
             return commentModel;
         }
         /// <summary>
@@ -115,7 +129,7 @@ namespace BusinessLogic.Services
                 {
                     Id = Guid.NewGuid(),
                     Text = commentViewModel.Text,
-                    ParentComment = _commentRepository.GetCommentById(commentViewModel.ParentSubmissionId),
+                    ParentComment = _commentRepository.GetCommentById(commentViewModel.ParentCommentId),
                     Author = _userRepository.GetUserById(commentViewModel.AuthorId)
                 };
 

@@ -1,10 +1,12 @@
 ﻿.expanded-content{
     background-color:gray;
+    margin:20px;
 }
 .expanded-content-text{
     padding:10px;
+    margin-bottom:0px;
 }
-.btn-group-vertical
-{
+.card{
+    background-color: lightgray;
+}
 
-}

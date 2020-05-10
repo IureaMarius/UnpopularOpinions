@@ -1,0 +1,23 @@
+﻿.expanded-content{
+    background-color:gray;
+
+    margin:20px;
+}
+.expanded-content-text{
+    padding:5px;
+    margin-bottom:0px;
+}
+
+.card-subtitle{
+    margin-top: 0.1rem;
+    margin-bottom: 1rem;
+}
+.card,.modal-content{
+    background-color: lightgray;
+}
+.comment-content{
+    padding:3px;
+}
+button{
+    margin:4px;
+}
