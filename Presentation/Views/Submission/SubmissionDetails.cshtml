@@ -16,10 +16,8 @@
             <div class="row">
                 <div class="col-1">
                     <div class="btn-group-vertical">
-                        <form method="post" action="" class="btn">
-                            <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
-                            <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
-                        </form>
+                            <input type="image" class="img-fluid upvoteSubmission unpressed" id="@Model.Id" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                            <input type="image" class="img-fluid downvoteSubmission unpressed" id="@Model.Id" src="~/Static/downvote-unpressed.png" alt="Downvote" />
                     </div>
                 </div>
                 <div class="col">
@@ -45,6 +43,19 @@
         <div>Log in to participate in the discussion.</div>
     }
 </div>
+<!-- Toast for errors and confirmations -->
+<div class="toast d-flex justify-content-center align-items-center" style="position: absolute; bottom: 0; right: 0;" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="mr-auto toast-title">Bootstrap</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body toast-message">
+        Hello, world! This is a toast message.
+    </div>
+</div>
+
 <!-- Modal for reply -->
 <div class="modal" tabindex="-1" role="dialog" id="MakeComment">
     <div class="modal-dialog" role="document">
@@ -100,6 +111,7 @@
 </div>
 
     <div id="CommentsStart"><h3>Comments:</h3></div>
+
     @foreach (CommentViewModel commentModel in Model.Comments)
     {
         
@@ -109,10 +121,8 @@
                 <div class="row">
                     <div class="col-1">
                         <div class="btn-group-vertical">
-                            <form method="post" action="" class="btn">
-                                <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
-                                <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
-                            </form>
+                               <input type="image" class="img-fluid upvoteComment unpressed" id="@commentModel.Id" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                               <input type="image" class="img-fluid downvoteComment unpressed" id="@commentModel.Id"  src="~/Static/downvote-unpressed.png" alt="Downvote" />
                         </div>
                     </div>
                     <div class="col comment-content">

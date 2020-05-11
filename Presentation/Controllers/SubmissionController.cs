@@ -30,7 +30,8 @@ namespace Presentation.Controllers
             if (!isLoggedRegisteredInDb())
                 return RedirectToAction("CreateUser", "User");
             List<SubmissionListViewModel> submissions = this._submissionService.Get100Submissions(skipNrOfSubmissions);
-
+            if(User.Identity.IsAuthenticated)
+                ViewBag.userName = this._userService.GetUserById(Guid.Parse(User.Identity.GetUserId())).Name;
             return View(submissions);
         }
         [HttpGet]

@@ -16,6 +16,7 @@ namespace DataAccess.Repositories
         public SubmissionRepository(UnpopularOpinionsDbContext dbContext)
         {
             this._dbContext = dbContext;
+            this._commentRepository = new CommentRepository(dbContext);
         }
         
         /// <summary>

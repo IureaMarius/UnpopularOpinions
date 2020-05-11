@@ -5,9 +5,11 @@
     Layout = "~/Views/Shared/Layout.cshtml";
     int i = 0;
 }
+@using Microsoft.AspNet.Identity
 <head>
     <title>@ViewBag.Title</title>
 </head>
+<input type="hidden" id="userName" value="@ViewBag.userName" />
 @foreach (SubmissionListViewModel submissionModel in Model)
 {
     <div class="card">
@@ -16,16 +18,19 @@
             <div class="row">
                 <div class="col-1">
                     <div class="btn-group-vertical">
-                        <form method="post" action="" class="btn">
-                            <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
-                            <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
-                        </form>
+                            <input type="image" class="img-fluid upvoteSubmission unpressed" id="@submissionModel.Id" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                            <input type="image" class="img-fluid downvoteSubmission unpressed" id="@submissionModel.Id" src="~/Static/downvote-unpressed.png" alt="Downvote" />
                     </div>
                 </div>
                 <div class="col">
                     <h5 class="card-title">@submissionModel.Title</h5>
                     <h7 class="card-subtitle">Submitted by @submissionModel.AuthorName</h7>
-                    <h7 class="card-subtitle"><a href="@Url.Action("SubmissionDetails","Submission",new { id = submissionModel.Id })">comments</a></h7>
+                    <button class="btn btn-dark" onclick="window.location.href='@Url.Action("SubmissionDetails","Submission",new {id = submissionModel.Id})'">Comments</button>
+                    @if(User.Identity.GetUserId()!=null && submissionModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
+                    {
+                        <button class="btn btn-dark edit" id="@submissionModel.Id">Edit</button>
+                        <button class="btn btn-dark delete" id="@submissionModel.Id">Delete</button>
+                    }
                     <button class="btn btn-light" data-toggle="collapse" href="#collapsible@(i)">
                         <img src="~/Static/collapsible.png" class="img-fluid" style="height:20px" />
                     </button>

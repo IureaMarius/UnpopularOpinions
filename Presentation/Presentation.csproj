@@ -182,6 +182,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\CommentController.cs" />
+    <Compile Include="Controllers\API\SubmissionController.cs" />
     <Compile Include="Controllers\API\VoteController.cs" />
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -316,6 +317,7 @@
     <Content Include="Static\downvote-hovered.png" />
     <Content Include="Static\downvote-pressed.png" />
     <Content Include="Static\downvote-unpressed.png" />
+    <Content Include="Static\CommentDetails.js" />
     <Content Include="Static\SubmissionDetails.css" />
     <Content Include="Static\SubmissionDetails.js" />
     <Content Include="Static\SubmissionListScript.js" />

@@ -5,27 +5,38 @@
 }
 
 @using ViewModels
-@model CommentViewModel 
+@model CommentViewModel
 @using Microsoft.AspNet.Identity
-<meta name="userId" id="userId" content="@User.Identity.GetUserId()"/>
+<meta name="userId" id="userId" content="@User.Identity.GetUserId()" />
+
+
 <div class="container w75">
 
 
+    <input type="hidden" id="userName" value="@ViewBag.userName" />
     <div class="card">
         <div class="container">
 
             <div class="row">
                 <div class="col-1">
                     <div class="btn-group-vertical">
-                        <form method="post" action="" class="btn">
-                            <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
-                            <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
-                        </form>
+                        <input type="image" class="img-fluid upvoteComment unpressed" id="@Model.Id" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                        <input type="image" class="img-fluid downvoteComment unpressed" id="@Model.Id" src="~/Static/downvote-unpressed.png" alt="Downvote" />
                     </div>
                 </div>
                 <div class="col">
                     <h5 class="card-title">@Model.Text</h5>
                     <h7 class="card-subtitle">Submitted by @Model.AuthorName</h7>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <button class="btn btn-dark reply" id="@Model.Id">Reply</button>
+                    }
+
+                    @if (User.Identity.GetUserId() != null && Model.AuthorId == Guid.Parse(User.Identity.GetUserId()))
+                    {
+                        <button class="btn btn-dark edit" id="@Model.Id">Edit</button>
+                        <button class="btn btn-dark delete" id="@Model.Id">Delete</button>
+                    }
                 </div>
             </div>
         </div>
@@ -34,15 +45,28 @@
     @if (Request.IsAuthenticated)
     {
 
-    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#MakeComment">
-        Comment
-    </button>
+        <button type="button" class="btn btn-dark addComment" id="@Model.Id">
+            Comment
+        </button>
     }
     else
     {
         <div>Log in to participate in the discussion.</div>
     }
 </div>
+<!-- Toast for errors and confirmations -->
+<div class="toast d-flex justify-content-center align-items-center" style="position: absolute; bottom: 0; right: 0;" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="mr-auto toast-title">Bootstrap</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body toast-message">
+        Hello, world! This is a toast message.
+    </div>
+</div>
+
 <!-- Modal for reply -->
 <div class="modal" tabindex="-1" role="dialog" id="MakeComment">
     <div class="modal-dialog" role="document">
@@ -54,13 +78,13 @@
                 </button>
             </div>
             <div class="modal-body">
-            <div>
-                
-            <input type="hidden" id="parent" class="submissionParent" value="@Model.Id">
-            <textarea rows="5" cols="50" name="Comment" id="Content"></textarea>
-                
+                <div>
 
-            </div>
+                    <input type="hidden" id="parent" value="@Model.Id">
+                    <textarea rows="5" cols="50" name="Comment" id="Content"></textarea>
+
+
+                </div>
 
             </div>
             <div class="modal-footer">
@@ -70,48 +94,73 @@
         </div>
     </div>
 </div>
+<!-- Modal for edit -->
+<div class="modal" tabindex="-1" role="dialog" id="MakeEdit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your Comment:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
 
-    <div id="CommentsStart"><h3>Replies:</h3></div>
-    @foreach (CommentViewModel commentModel in Model.Replies)
-    {
-        
-        <div class="card AuthorIdHolder" id="@commentModel.AuthorId" >
-            <div class="container">
+                    <textarea rows="5" cols="50" name="Comment" id="EditContent"></textarea>
 
-                <div class="row">
-                    <div class="col-1">
-                        <div class="btn-group-vertical">
-                            <form method="post" action="" class="btn">
-                                <input type="image" class="img-fluid" src="~/Static/upvote-unpressed.png" alt="Upvote" />
-                                <input type="image" class="img-fluid" src="~/Static/downvote-unpressed.png" alt="Downvote" />
-                            </form>
-                        </div>
-                    </div>
-                    <div class="col comment-content">
-                        <h5 class="card-subtitle">@commentModel.Text</h5>
-                        <h7 class="card-subtitle">Submitted by @commentModel.AuthorName</h7>
-                        @if(Request.IsAuthenticated)
-                        {
-                            <button class="btn btn-dark reply" id="@commentModel.Id">Reply</button>
-                        }
-                        @if(commentModel.NrOfReplies>0)
-                        {
-                            <button class="btn btn-dark seereply" id="@commentModel.Id">See Replies</button>
-                        }
-                        @if(commentModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
-                        {
-                            <button class="btn btn-dark edit" id="@commentModel.Id">Edit</button>
-                            <button class="btn btn-dark">Delete</button>
-                        }
-                        
-                    </div>
+
                 </div>
 
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="put-button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="CommentsStart"><h3>Comments:</h3></div>
+
+@foreach (CommentViewModel commentModel in Model.Replies)
+{
+
+    <div class="card AuthorIdHolder" id="@commentModel.AuthorId">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-1">
+                    <div class="btn-group-vertical">
+                        <input type="image" class="img-fluid upvoteComment unpressed" id="@commentModel.Id" src="~/Static/upvote-unpressed.png" alt="Upvote" />
+                        <input type="image" class="img-fluid downvoteComment unpressed" id="@commentModel.Id" src="~/Static/downvote-unpressed.png" alt="Downvote" />
+                    </div>
+                </div>
+                <div class="col comment-content">
+                    <h5 class="card-subtitle commentText">@commentModel.Text</h5>
+                    <h7 class="card-subtitle">Submitted by @commentModel.AuthorName</h7>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <button class="btn btn-dark reply" id="@commentModel.Id">Reply</button>
+                    }
+                    @if (commentModel.NrOfReplies > 0)
+                    {
+                        <button class="btn btn-dark seereply" id="@commentModel.Id" onclick="window.location.href='@Url.Action("CommentDetails","Comment",new { id = commentModel.Id })'">See Replies</button>
+                    }
+                    @if (User.Identity.GetUserId() != null && commentModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
+                    {
+                        <button class="btn btn-dark edit" id="@commentModel.Id">Edit</button>
+                        <button class="btn btn-dark delete" id="@commentModel.Id">Delete</button>
+                    }
+
+                </div>
+            </div>
 
         </div>
-    }
-    @section Links{
+
+    </div>
+}
+@section Links{
     <link href="~/Static/SubmissionDetails.css" rel="stylesheet" />
-    <script src="~/Static/SubmissionDetails.js"></script>
-    }
+    <script src="~/Static/CommentDetails.js"></script>
+}

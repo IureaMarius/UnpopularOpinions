@@ -44,10 +44,14 @@ namespace BusinessLogic.Services
         public VoteViewModel GetVoteBySubmissionAndVoterId(Guid SubmissionId, Guid VoterId)
         {
             Vote voteEntity = this._voteRepository.Query()
-                .Where(vote => vote.VoteType == 0)
+                .Where(vote => vote.VoteType == 1)
                 .Where(vote => vote.VoterId == VoterId)
                 .Where(vote => vote.SubOrCommId == SubmissionId)
                 .FirstOrDefault();
+            if(voteEntity==null)
+            {
+                throw new InvalidOperationException($"The vote made by user {VoterId} on the submission {SubmissionId} could not be found");
+            }
             VoteViewModel voteModel = new VoteViewModel
             {
                 Id = voteEntity.Id,
@@ -67,6 +71,10 @@ namespace BusinessLogic.Services
                 .Where(vote => vote.VoterId == VoterId)
                 .Where(vote => vote.SubOrCommId == CommentId)
                 .FirstOrDefault();
+            if(voteEntity==null)
+            {
+                throw new InvalidOperationException($"The vote made by user {VoterId} on the submission {CommentId} could not be found");
+            }
             VoteViewModel voteModel = new VoteViewModel
             {
                 Id = voteEntity.Id,

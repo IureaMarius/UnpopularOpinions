@@ -23,6 +23,7 @@ namespace Presentation.Controllers.API
             this._submissionService = new SubmissionService();
             this._commentService = new CommentService();
         }
+        [Route("api/Vote/CastCommentVote")]
         [Authorize]
         [HttpPut]
         public IHttpActionResult CastCommentVote(VoteViewModel voteModel)
@@ -57,7 +58,7 @@ namespace Presentation.Controllers.API
                 this._commentService.UpdateComment(commentModel);
                 voteFromDb.VoteValue = voteModel.VoteValue;
                 _voteService.UpdateVote(voteFromDb);
-                return Ok();
+                return Ok(voteFromDb.Id);
 
             }catch(InvalidOperationException)
             {
@@ -69,10 +70,23 @@ namespace Presentation.Controllers.API
                     VoteValue = voteModel.VoteValue,
                     SubOrCommId = voteModel.SubOrCommId
                 };
-                return Ok();
 
+
+                CommentViewModel commentModel = this._commentService.GetCommentById(voteToInsert.SubOrCommId);
+                if (voteModel.VoteValue == 1)
+                    commentModel.Upvotes++;
+                else if (voteModel.VoteValue == -1)
+                    commentModel.Downvotes++;
+                this._commentService.UpdateComment(commentModel);
+                this._voteService.InsertVote(voteToInsert);
+                return Ok(voteToInsert.Id);
+
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
             }
         }
+        [Route("api/Vote/CastSubmissionVote")]
         [Authorize]
         [HttpPut]
         public IHttpActionResult CastSubmissionVote(VoteViewModel voteModel)
@@ -108,7 +122,7 @@ namespace Presentation.Controllers.API
                 this._submissionService.UpdateSubmission(submissionModel);
                 voteFromDb.VoteValue = voteModel.VoteValue;
                 _voteService.UpdateVote(voteFromDb);
-                return Ok();
+                return Ok(voteFromDb.Id);
 
             }catch(InvalidOperationException)
             {
@@ -120,8 +134,18 @@ namespace Presentation.Controllers.API
                     VoteValue = voteModel.VoteValue,
                     SubOrCommId = voteModel.SubOrCommId
                 };
-                return Ok();
+                SubmissionViewModel submissionModel = this._submissionService.GetSubmissionById(voteToInsert.SubOrCommId);
+                if (voteModel.VoteValue == 1)
+                    submissionModel.Upvotes++;
+                else if (voteModel.VoteValue == -1)
+                    submissionModel.Downvotes++;
+                this._submissionService.UpdateSubmission(submissionModel);
+                this._voteService.InsertVote(voteToInsert);
+                return Ok(voteToInsert.Id);
 
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
             }
         }
 

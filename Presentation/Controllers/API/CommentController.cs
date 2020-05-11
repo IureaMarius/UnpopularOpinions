@@ -18,6 +18,7 @@ namespace Presentation.Controllers.API
         {
             this._commentService = new CommentService();
         }
+        [Authorize]
         [HttpPut]
         public IHttpActionResult Put([FromBody]EditCommentViewModel commentViewModel)
         {
@@ -39,7 +40,7 @@ namespace Presentation.Controllers.API
                 return InternalServerError(ex);
             }
         }
-
+        [Authorize]
         [HttpPost]
         public IHttpActionResult Post([FromBody]CreateCommentViewModel commentModel)
         {

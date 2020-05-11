@@ -279,7 +279,6 @@ $(document).ready(function () {
             success: function (data) {
                 $("#Content").val("");
                 $("#MakeComment").modal("toggle");
-                $("#parent").addClass("submissionParent")
                 $("#parent").val(submissionId);
                 if (comment.ParentCommentId == null)
                     AddUserComment(comment,data);
@@ -295,7 +294,6 @@ $(document).ready(function () {
     });
     $(document).on("click", ".addComment", function () {
         $("#parent").val(this.id);
-        $("#parent").addClass("submissionParent");   
         $("#MakeComment").modal("toggle");
     });
     $(document).on("click", ".edit", function () {
