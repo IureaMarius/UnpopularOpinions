@@ -132,21 +132,9 @@
     <Compile Include="Entities\Submission.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Vote.cs" />
-    <Compile Include="Migrations\202005081645247_fix.cs" />
-    <Compile Include="Migrations\202005081645247_fix.designer.cs">
-      <DependentUpon>202005081645247_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005091236439_auth.cs" />
-    <Compile Include="Migrations\202005091236439_auth.designer.cs">
-      <DependentUpon>202005091236439_auth.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005091629314_VoteEntityMigration.cs" />
-    <Compile Include="Migrations\202005091629314_VoteEntityMigration.designer.cs">
-      <DependentUpon>202005091629314_VoteEntityMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202005111523041_CascadeOnDeleteCommAndSubm.cs" />
-    <Compile Include="Migrations\202005111523041_CascadeOnDeleteCommAndSubm.designer.cs">
-      <DependentUpon>202005111523041_CascadeOnDeleteCommAndSubm.cs</DependentUpon>
+    <Compile Include="Migrations\202005111601126_Initial.cs" />
+    <Compile Include="Migrations\202005111601126_Initial.designer.cs">
+      <DependentUpon>202005111601126_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,17 +148,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202005081645247_fix.resx">
-      <DependentUpon>202005081645247_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005091236439_auth.resx">
-      <DependentUpon>202005091236439_auth.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005091629314_VoteEntityMigration.resx">
-      <DependentUpon>202005091629314_VoteEntityMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202005111523041_CascadeOnDeleteCommAndSubm.resx">
-      <DependentUpon>202005111523041_CascadeOnDeleteCommAndSubm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202005111601126_Initial.resx">
+      <DependentUpon>202005111601126_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

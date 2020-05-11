@@ -7,13 +7,13 @@ namespace DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.0")]
-    public sealed partial class CascadeOnDeleteCommAndSubm : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CascadeOnDeleteCommAndSubm));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202005111523041_CascadeOnDeleteCommAndSubm"; }
+            get { return "202005111601126_Initial"; }
         }
         
         string IMigrationMetadata.Source

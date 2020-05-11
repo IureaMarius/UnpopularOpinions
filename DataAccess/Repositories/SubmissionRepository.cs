@@ -12,6 +12,7 @@ namespace DataAccess.Repositories
     {
         
         private readonly UnpopularOpinionsDbContext _dbContext;
+        private readonly CommentRepository _commentRepository;
         public SubmissionRepository(UnpopularOpinionsDbContext dbContext)
         {
             this._dbContext = dbContext;
@@ -61,7 +62,12 @@ namespace DataAccess.Repositories
         /// <param name="sub">Submission to be removed</param>
         public void DeleteSubmission(Submission sub)
         {
+            if(sub.Comments!=null)
+            foreach (Comment reply in sub.Comments.ToList())
+                this._commentRepository.DeleteComment(reply);
+
             this._dbContext.Submissions.Remove(sub);
+
         }
         /// <summary>
         /// Save all the in-memory changes to the database and close connection

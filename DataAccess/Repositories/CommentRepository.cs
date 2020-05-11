@@ -60,7 +60,12 @@ namespace DataAccess.Repositories
         /// <param name="comment">The comment to be deleted</param>
         public void DeleteComment(Comment comment)
         {
+            if(comment.Replies!=null)
+            foreach (Comment reply in comment.Replies.ToList())
+                DeleteComment(reply);
+
             this._dbContext.Comments.Remove(comment);
+
         }
         /// <summary>
         /// Save all the in-memory changes to the database and close connection

@@ -17,14 +17,6 @@ namespace DataAccess.Context
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Comment>()
-                .HasOptional(comm => comm.Replies)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete();
-            modelBuilder.Entity<Submission>()
-                .HasOptional(subm => subm.Comments)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete();
 
         }
         public DbSet<Submission> Submissions { get; set; }
