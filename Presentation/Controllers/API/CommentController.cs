@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Services.Protocols;
 using ViewModels;
 
 namespace Presentation.Controllers.API
@@ -18,12 +19,16 @@ namespace Presentation.Controllers.API
             this._commentService = new CommentService();
         }
         [HttpPut]
-        public IHttpActionResult Put([FromBody]CommentViewModel CommentViewModel)
+        public IHttpActionResult Put([FromBody]EditCommentViewModel commentViewModel)
         {
             try
             {
-                this._commentService.UpdateComment(CommentViewModel);
-                return Ok();
+                CommentViewModel updateEntity = this._commentService.GetCommentById(commentViewModel.CommentId);
+
+                updateEntity.Text = commentViewModel.Text;
+
+                this._commentService.UpdateComment(updateEntity);
+                return Ok("success");
             }
             catch(InvalidOperationException ex)
             {
@@ -36,14 +41,34 @@ namespace Presentation.Controllers.API
         }
 
         [HttpPost]
-        public void Post([FromBody]CreateCommentViewModel commentModel)
+        public IHttpActionResult Post([FromBody]CreateCommentViewModel commentModel)
         {
+            try { 
                 Guid id = this._commentService.InsertComment(commentModel);
+                return Ok(id);
+            }catch(InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
+        [Authorize]
         [HttpDelete]
-        public void Delete(Guid id)
+        public IHttpActionResult Delete(Guid id)
         {
-            this._commentService.DeleteComment(id);
+            try
+            {
+                this._commentService.DeleteComment(id);
+                return Ok("success");
+            } catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }catch(Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
             
     }

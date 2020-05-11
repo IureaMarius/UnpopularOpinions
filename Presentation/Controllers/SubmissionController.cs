@@ -40,7 +40,7 @@ namespace Presentation.Controllers
             if (!isLoggedRegisteredInDb())
                 return RedirectToAction("CreateUser", "User");
             SubmissionViewModel submission = this._submissionService.GetSubmissionById(id);
-
+            ViewBag.userName = this._userService.GetUserById(submission.AuthorId).Name;
             return View(submission);
         }
         [HttpGet]

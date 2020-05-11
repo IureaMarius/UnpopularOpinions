@@ -24,11 +24,13 @@ namespace DataAccess.Repositories
         {
             return this._dbContext.Comments.AsQueryable();
         }
+        
         /// <summary>
         /// Get a comment based on it's Id
         /// </summary>
         /// <param name="Id">The id of the requested comment</param>
         /// <returns>The comment object</returns>
+
         public Comment GetCommentById(Guid Id)
         {
             Comment comment = _dbContext.Comments

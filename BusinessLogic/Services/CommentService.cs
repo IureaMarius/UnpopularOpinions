@@ -36,7 +36,7 @@ namespace BusinessLogic.Services
                 Downvotes = commentEntity.Downvotes
             };
                  List<CommentViewModel> Comments = _commentRepository.Query()
-                .Where(comm => comm.ParentSubmission.Id == commentEntity.Id)
+                .Where(comm => comm.ParentComment.Id == commentEntity.Id)
                 .Select(commEntity => new CommentViewModel
                 {
                     Id = commEntity.Id,
@@ -133,6 +133,8 @@ namespace BusinessLogic.Services
                     Author = _userRepository.GetUserById(commentViewModel.AuthorId)
                 };
 
+                Comment AddToNrOfReplies = this._commentRepository.GetCommentById(commentViewModel.ParentCommentId);
+                AddToNrOfReplies.NrOfReplies++;
             }
 
             this._commentRepository.AddComment(commentEntity);
@@ -168,7 +170,7 @@ namespace BusinessLogic.Services
             }
             commentEntityToUpdate.Upvotes = commentViewModel.Upvotes;
             commentEntityToUpdate.Downvotes = commentViewModel.Downvotes;
-            
+            commentEntityToUpdate.NrOfReplies = commentViewModel.NrOfReplies;
             commentEntityToUpdate.Text = commentViewModel.Text;
             this._commentRepository.SaveChanges();
         }

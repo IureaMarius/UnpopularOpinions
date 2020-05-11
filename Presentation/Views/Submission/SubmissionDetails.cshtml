@@ -6,10 +6,10 @@
 @using ViewModels
 @model SubmissionViewModel
 @using Microsoft.AspNet.Identity
-<meta name="userId" id="userId" content="@User.Identity.GetUserId()"/>
 <div class="container w75">
 
 
+    <input type="hidden" id="userName" value="@ViewBag.userName" />
     <div class="card">
         <div class="container">
 
@@ -36,7 +36,7 @@
     @if (Request.IsAuthenticated)
     {
 
-    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#MakeComment">
+    <button type="button" class="btn btn-dark addComment" id="@Model.Id">
         Comment
     </button>
     }
@@ -72,6 +72,32 @@
         </div>
     </div>
 </div>
+<!-- Modal for edit -->
+<div class="modal" tabindex="-1" role="dialog" id="MakeEdit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Your Comment:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <div>
+                
+            <textarea rows="5" cols="50" name="Comment" id="EditContent"></textarea>
+                
+
+            </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="put-button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div id="CommentsStart"><h3>Comments:</h3></div>
     @foreach (CommentViewModel commentModel in Model.Comments)
@@ -90,7 +116,7 @@
                         </div>
                     </div>
                     <div class="col comment-content">
-                        <h5 class="card-subtitle">@commentModel.Text</h5>
+                        <h5 class="card-subtitle commentText">@commentModel.Text</h5>
                         <h7 class="card-subtitle">Submitted by @commentModel.AuthorName</h7>
                         @if(Request.IsAuthenticated)
                         {
@@ -98,12 +124,12 @@
                         }
                         @if(commentModel.NrOfReplies>0)
                         {
-                            <button class="btn btn-dark seereply" id="@commentModel.Id">See Replies</button>
+                            <button class="btn btn-dark seereply" id="@commentModel.Id" onclick="window.location.href='@Url.Action("CommentDetails","Comment",new { id = commentModel.Id })'">See Replies</button>
                         }
-                        @if(commentModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
+                        @if(User.Identity.GetUserId()!=null && commentModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
                         {
-                            <button class="btn btn-dark edit" id="@commentModel.Id">Edit</button>
-                            <button class="btn btn-dark">Delete</button>
+                             <button class="btn btn-dark edit" id="@commentModel.Id">Edit</button>
+                            <button class="btn btn-dark delete" id="@commentModel.Id">Delete</button>
                         }
                         
                     </div>
