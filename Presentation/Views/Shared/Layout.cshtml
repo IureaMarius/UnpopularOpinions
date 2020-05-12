@@ -9,7 +9,8 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
 
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    @RenderSection("Scripts",false)
+    <link href="~/Static/GlobalStyle.css" rel="stylesheet" />
+    @RenderSection("Scripts", false)
     @RenderSection("Links", false)
 </head>
 <body>
@@ -18,22 +19,30 @@
     <input type="hidden" id="UserKey" value="@User.Identity.GetUserId()" />
 }
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Unpopular Opinions</a>
+        <a class="navbar-brand" href="/">Unpopular Opinions</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+         
             <ul class="navbar-nav mr-auto">
+            @if (Request.IsAuthenticated)
+            {
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Account<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/User/UserSubmissions/@User.Identity.GetUserId()?skipNrOfSubmissions=0">My Submissions<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Messages<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/User/UserComments/@User.Identity.GetUserId()?skipNrOfComments=0">My Comments<span class="sr-only">(current)</span></a>
+                </li>
+            }
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">About</a>
                 </li>
             </ul>
+            
             <div class="form-inline my-2 my-lg-0">
-                <a href="@Url.Action("CreateSubmission","Submission")" class="btn btn-primary">Make a submission</a>
+                <a href="@Url.Action("CreateSubmission","Submission")" class="btn btn-primary layout-button">Make a submission</a>
                 @if (Request.IsAuthenticated)
                 {
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
@@ -50,7 +59,7 @@
                     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "/" }))
                     {
                         @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-primary" name="provider" id="Google" value="Google">Log in with Google</button>
+                        <button type="submit" class="btn btn-primary layout-button" name="provider" id="Google" value="Google">Log in with Google</button>
                     }
                 }
 

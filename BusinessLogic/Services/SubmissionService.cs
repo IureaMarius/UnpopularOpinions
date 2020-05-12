@@ -34,7 +34,7 @@ namespace BusinessLogic.Services
         {
             //TODO: add sorting based on amount of votes and how controversial
             List<SubmissionListViewModel> submissions = this._submissionRepository.Query()
-                .OrderBy(sub => sub.Upvotes)
+                .OrderBy(sub => Math.Abs(sub.Upvotes-sub.Downvotes))
                 .Skip(skipNrOfSubmissions)
                 .Take(100)
                 .Select(submissionEntity => new SubmissionListViewModel
@@ -129,6 +129,7 @@ namespace BusinessLogic.Services
             }
             List<CommentViewModel> Comments = _commentRepository.Query()
                 .Where(comm => comm.ParentSubmission.Id == submissionEntity.Id)
+                .OrderBy(comm => Math.Abs(comm.Upvotes-comm.Downvotes))
                 .Select(commentEntity => new CommentViewModel
                 {
                     Id = commentEntity.Id,

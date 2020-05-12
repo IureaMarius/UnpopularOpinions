@@ -318,6 +318,7 @@
     <Content Include="Static\downvote-pressed.png" />
     <Content Include="Static\downvote-unpressed.png" />
     <Content Include="Static\CommentDetails.js" />
+    <Content Include="Static\GlobalStyle.css" />
     <Content Include="Static\SubmissionDetails.css" />
     <Content Include="Static\SubmissionDetails.js" />
     <Content Include="Static\SubmissionListScript.js" />
@@ -376,6 +377,9 @@
     <Content Include="Views\User\CreateUser.cshtml" />
     <Content Include="Views\Submission\SubmissionDetails.cshtml" />
     <Content Include="Views\Comment\CommentDetails.cshtml" />
+    <Content Include="Views\User\UserSubmissions.cshtml" />
+    <Content Include="Views\User\UserComments.cshtml" />
+    <Content Include="Views\Submission\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

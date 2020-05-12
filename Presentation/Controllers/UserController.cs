@@ -13,10 +13,11 @@ namespace Presentation.Controllers
     public class UserController : Controller
     {
         private readonly UserService _userService;
-
+        private readonly CommentService _commentService;
         public UserController()
         {
             this._userService = new UserService();
+            this._commentService = new CommentService();
         }
         [HttpGet]
         [Authorize]
@@ -49,6 +50,28 @@ namespace Presentation.Controllers
         public ActionResult AccountAlreadyHasName()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult UserSubmissions(Guid id, int skipNrOfSubmissions)
+        {
+            UserSubmissionsViewModel submissions = this._userService.Get100UserSubmissionsById(id, skipNrOfSubmissions);
+
+            if(User.Identity.IsAuthenticated)
+                ViewBag.userName = this._userService.GetUserById(Guid.Parse(User.Identity.GetUserId())).Name;
+            ViewBag.skipNrOfSubmission = skipNrOfSubmissions;
+
+            return View(submissions);
+        }
+        [HttpGet]
+        public  ActionResult UserComments(Guid id, int skipNrOfComments)
+        {
+            UserCommentsViewModel comments = this._userService.Get100UserCommentsById(id, skipNrOfComments);
+            if(User.Identity.IsAuthenticated)
+                ViewBag.userName = this._userService.GetUserById(Guid.Parse(User.Identity.GetUserId())).Name;
+            ViewBag.skipNrOfComments= skipNrOfComments;
+            return View(comments);
+
         }
     }
 }

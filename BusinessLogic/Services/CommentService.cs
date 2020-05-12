@@ -32,11 +32,13 @@ namespace BusinessLogic.Services
                 Text = commentEntity.Text,
                 AuthorId = commentEntity.Author.Id,
                 AuthorName = commentEntity.Author.Name,
+                NrOfReplies = commentEntity.NrOfReplies,
                 Upvotes = commentEntity.Upvotes,
                 Downvotes = commentEntity.Downvotes
             };
                  List<CommentViewModel> Comments = _commentRepository.Query()
                 .Where(comm => comm.ParentComment.Id == commentEntity.Id)
+                .OrderBy(comm => Math.Abs(comm.Upvotes-comm.Downvotes))
                 .Select(commEntity => new CommentViewModel
                 {
                     Id = commEntity.Id,
@@ -149,12 +151,32 @@ namespace BusinessLogic.Services
         public void DeleteComment(Guid commentId)
         {
             Comment commentToDelete = this._commentRepository.GetCommentById(commentId);
+
+            bool changedReplies = false;
+            CommentViewModel downReplyCount= new CommentViewModel();
             if(commentToDelete==null)
             {
                 throw new InvalidOperationException($"Comment with id {commentId} not found");
             }
+
+            if(commentToDelete.ParentComment!=null)
+            {
+                //if it is a reply, remove it from it's parent reply counter
+                downReplyCount = GetCommentById(commentToDelete.ParentComment.Id);
+                downReplyCount.NrOfReplies--;
+                changedReplies = true;
+
+            }
             this._commentRepository.DeleteComment(commentToDelete);
+            if(changedReplies)
+            {
+                UpdateComment(downReplyCount);
+                //this saves the database on it's own
+            }
+            else
+            {
             this._commentRepository.SaveChanges();
+            }
         }
         /// <summary>
         /// Updates an existing comment

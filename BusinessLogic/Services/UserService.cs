@@ -45,7 +45,7 @@ namespace BusinessLogic.Services
             };
             return userModel;
         }
-        public UserCommentsViewModel GetUserCommentsById(Guid id)
+        public UserCommentsViewModel Get100UserCommentsById(Guid id, int skipNrOfComments)
         {
             User userEntity = _userRepository.GetUserById(id);
             if(userEntity==null)
@@ -60,6 +60,9 @@ namespace BusinessLogic.Services
             };
             List<CommentViewModel> Comments = _commentRepository.Query()
                 .Where(comm => comm.Author.Id == id)
+                .OrderBy(comm => Math.Abs(comm.Upvotes-comm.Downvotes))
+                .Skip(skipNrOfComments)
+                .Take(100)
                 .Select(commentEntity => new CommentViewModel
                 {
                     Id = commentEntity.Id,
@@ -76,7 +79,7 @@ namespace BusinessLogic.Services
 
         }
 
-        public UserSubmissionsViewModel GetUserSubmissionById(Guid id)
+        public UserSubmissionsViewModel Get100UserSubmissionsById(Guid id,int skipNrOfSubmissions)
         {
             User userEntity = _userRepository.GetUserById(id);
 
@@ -87,6 +90,9 @@ namespace BusinessLogic.Services
             };
             List<SubmissionListViewModel> Submissions= _submissionRepository.Query()
                 .Where(sub => sub.Author.Id == id)
+                .OrderBy(sub => Math.Abs(sub.Upvotes-sub.Downvotes))
+                .Skip(skipNrOfSubmissions)
+                .Take(100)
                 .Select(subEntity => new SubmissionListViewModel
                 {
                     Id = subEntity.Id,

@@ -282,8 +282,23 @@ $(document).ready(function () {
                 $("#parent").val(submissionId);
                 if (comment.ParentCommentId == null)
                     AddUserComment(comment,data);
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("Comment sent successfully!");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "green");
+                    $(".toast").toast("show");
             },
             error: function (xhxr, textStatus, errorThrown) {
+
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("There was an error proccessing your comment.");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "red");
+                    $(".toast").toast("show");
             }
         });
     });
@@ -321,9 +336,24 @@ $(document).ready(function () {
                 $("#EditContent").val("");
                 $("#MakeEdit").modal("toggle");
 
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("Edit successful!");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "green");
+                    $(".toast").toast("show");
+
             },
             error: function (data) {
 
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("There was an error proccessing your edit.");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "red");
+                    $(".toast").toast("show");
             }
         });
 
@@ -331,14 +361,29 @@ $(document).ready(function () {
     });
     $(document).on("click", ".delete", function () {
         var id = this.id; //id of comment to be deleted
+        var clicked = $(this);
         $.ajax({
             url: "/api/Comment/"+id,
             type: "DELETE",
             success: function (data) {
-                console.log("delete successful");
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("Delete successful.");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "green");
+                    $(".toast").toast("show");
+
+                    clicked.closest(".card").remove();
             },
             error: function (data) {
-                console.log("delete failed");
+                    $(".toast-title").text("Unpopular Opinions");
+                    $(".toast-message").text("There was an error while proccessing your delete request.");
+                    $(".toast").toast({
+                        delay:1500
+                    });
+                    $(".toast").css("color", "red");
+                    $(".toast").toast("show");
             }
 
         })
@@ -362,8 +407,8 @@ function AddUserComment(comment, commentId) {
                         </div>
                     </div>
                     <div class="col comment-content">
-                        <h5 class="card-subtitle">`+comment.Text+`</h5>
-                        <h7 class="card-subtitle">Submitted by `+$("#userName").attr("value")+`</h7>
+                        <h5 class="card-subtitle">`+ comment.Text + `</h5>
+                        <h7 class="card-subtitle" onclick="window.location.href ='/User/UserSubmissions/`+ comment.AuthorId + `/0'">Submitted by ` + $("#userName").attr("value") +`</h7>
                             <button class="btn btn-dark reply" id="`+commentId+`">Reply</button>
 
                             <button class="btn btn-dark edit" id="`+commentId+`">Edit</button>

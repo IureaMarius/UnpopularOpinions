@@ -26,7 +26,7 @@
                 </div>
                 <div class="col">
                     <h5 class="card-title">@Model.Text</h5>
-                    <h7 class="card-subtitle">Submitted by @Model.AuthorName</h7>
+                    <h7 class="card-subtitle" onclick="window.location.href ='@Url.Action("UserSubmissions","User",new {id=Model.AuthorId,skipNrOfSubmissions=0})'">Submitted by @Model.AuthorName</h7>
                     @if (Request.IsAuthenticated)
                     {
                         <button class="btn btn-dark reply" id="@Model.Id">Reply</button>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col comment-content">
                     <h5 class="card-subtitle commentText">@commentModel.Text</h5>
-                    <h7 class="card-subtitle">Submitted by @commentModel.AuthorName</h7>
+                    <h7 class="card-subtitle" onclick="window.location.href ='@Url.Action("UserSubmissions","User",new {id=commentModel.AuthorId,skipNrOfSubmissions=0})'">Submitted by @commentModel.AuthorName</h7>
                     @if (Request.IsAuthenticated)
                     {
                         <button class="btn btn-dark reply" id="@commentModel.Id">Reply</button>

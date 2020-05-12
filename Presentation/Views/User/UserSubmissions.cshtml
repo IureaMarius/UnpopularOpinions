@@ -1,5 +1,5 @@
 ﻿@using ViewModels
-@model List<SubmissionListViewModel>
+@model  UserSubmissionsViewModel
 @{
     ViewBag.Title = "Unpopular Opinions";
     Layout = "~/Views/Shared/Layout.cshtml";
@@ -9,7 +9,11 @@
 <head>
     <title>@ViewBag.Title</title>
 </head>
+<div class="jumbotron-fluid">
+    <h1>@Model.Name's submissions:</h1>
 
+    <button class="btn btn-dark" style="margin:5px" onclick="window.location.href='/User/UserComments/'+'@Model.Id'+'?skipNrOfComments=0'">Go to comments</button>
+</div>
 <!-- Toast for errors and confirmations -->
 <div class="toast d-flex justify-content-center align-items-center" style="position: absolute; bottom: 0; right: 0;" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
@@ -52,7 +56,7 @@
     </div>
 </div>
 <input type="hidden" id="userName" value="@ViewBag.userName" />
-@foreach (SubmissionListViewModel submissionModel in Model)
+@foreach (SubmissionListViewModel submissionModel in Model.Submissions)
 {
     <div class="card AuthorIdHolder" id="@submissionModel.AuthorId">
         <div class="container">
@@ -66,7 +70,7 @@
                 </div>
                 <div class="col">
                     <h5 class="card-title submission-title">@submissionModel.Title</h5>
-                    <h7 class="card-subtitle" onclick="window.location.href ='@Url.Action("UserSubmissions","User",new {id=submissionModel.AuthorId,skipNrOfSubmissions=0})'">Submitted by @submissionModel.AuthorName</h7>
+                    <h7 class="card-subtitle">Submitted by @submissionModel.AuthorName</h7>
                     <button class="btn btn-dark" onclick="window.location.href='@Url.Action("SubmissionDetails","Submission",new {id = submissionModel.Id})'">Comments</button>
                     @if(User.Identity.GetUserId()!=null && submissionModel.AuthorId == Guid.Parse(User.Identity.GetUserId()))
                     {
@@ -90,7 +94,7 @@
 }
 @if(i>99)
 {
-    <button class="btn btn-dark" onclick="window.location.href='@Url.Action("SubmissionList","Submission",new { skipNrOfSubmissions = ViewBag.skipNrOfSubmissions+100})'">Next Page</button>
+    <button class="btn btn-dark" onclick="window.location.href='@Url.Action("UserSubmissions","User",new { id=Model.Id, skipNrOfSubmissions = ViewBag.skipNrOfSubmissions+100})'">Next Page</button>
 }
 @section Links{
     <link href="~/Static/SubmissionListStyle.css" rel="stylesheet" />

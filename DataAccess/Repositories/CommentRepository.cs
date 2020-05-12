@@ -35,6 +35,8 @@ namespace DataAccess.Repositories
         {
             Comment comment = _dbContext.Comments
                 .Where(comm => comm.Id == Id)
+                .Include(comm => comm.ParentComment)
+                .Include(comm => comm.ParentSubmission)
                 .Include(comm => comm.Author)
                 .Include(comm => comm.Replies)
                 .FirstOrDefault();
@@ -60,12 +62,27 @@ namespace DataAccess.Repositories
         /// <param name="comment">The comment to be deleted</param>
         public void DeleteComment(Comment comment)
         {
-            if(comment.Replies!=null)
-            foreach (Comment reply in comment.Replies.ToList())
-                DeleteComment(reply);
 
-            this._dbContext.Comments.Remove(comment);
+            Comment target = this._dbContext.Comments
+                .Include(x => x.Replies)
+                .FirstOrDefault(x => x.Id == comment.Id);
 
+            RecursiveDelete(target);
+        }
+        private void RecursiveDelete(Comment parent)
+        {
+            if(parent.Replies.Count>0)
+            {
+                var children = this._dbContext.Comments
+                    .Include(x => x.Replies)
+                    .Where(x => x.ParentComment.Id == parent.Id || x.ParentSubmission.Id == parent.Id).ToList();
+                if(children.Count>0)
+                foreach(var child in children)
+                {
+                    RecursiveDelete(child);
+                }
+            }
+            this._dbContext.Comments.Remove(parent);
         }
         /// <summary>
         /// Save all the in-memory changes to the database and close connection

@@ -32,6 +32,7 @@ namespace Presentation.Controllers
             List<SubmissionListViewModel> submissions = this._submissionService.Get100Submissions(skipNrOfSubmissions);
             if(User.Identity.IsAuthenticated)
                 ViewBag.userName = this._userService.GetUserById(Guid.Parse(User.Identity.GetUserId())).Name;
+            ViewBag.skipNrOfSubmission = skipNrOfSubmissions;
             return View(submissions);
         }
         [HttpGet]
@@ -85,6 +86,11 @@ namespace Presentation.Controllers
         {
             this._submissionService.DeleteSubmission(id);
             return RedirectToAction("SubmissionList");
+        }
+        [HttpGet]
+        public ActionResult About()
+        {
+            return View();
         }
 
         //Helper function
