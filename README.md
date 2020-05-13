@@ -7,4 +7,7 @@ testa implementarea proiectului. Intrati pe pagina de About ca sa intelegeti ide
 board. Proiectul are lipsa migratiile in ordinea in care le-am facut, am avut o problema cu baza de date si am fost nevoit sa o sterg
 si sa resetez toate tabelele din baza de date.
 
+Daca apare vreo eroare de tipul "Unable to update database to match the current model"  si nu se rezolva cand dati update-database
+porniti automatic migration.
+
 Daca proiectul are vreo problema adresa mea de email este marius.iurea@yahoo.com
