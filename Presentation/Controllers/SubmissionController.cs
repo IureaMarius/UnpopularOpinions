@@ -78,6 +78,10 @@ namespace Presentation.Controllers
         [HttpPost]
         public ActionResult CreateSubmission(CreateSubmissionViewModel submission)
         {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
             Guid submissionId = this._submissionService.InsertSubmission(submission);
             return RedirectToAction("SubmissionList");
         }
@@ -93,7 +97,7 @@ namespace Presentation.Controllers
             return View();
         }
 
-        //Helper function
+        //Helper function used to register user's account after external login
         public bool isLoggedRegisteredInDb()
         {
             if(User.Identity.GetUserId()==null)

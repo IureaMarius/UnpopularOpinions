@@ -41,6 +41,12 @@ namespace BusinessLogic.Services
 
             this._voteRepository.SaveChanges();
         }
+        /// <summary>
+        /// Used to check if the user has already voted and what his vote was
+        /// </summary>
+        /// <param name="SubmissionId">The id of the submission that was voted</param>
+        /// <param name="VoterId">The id of the user who voted</param>
+        /// <returns></returns>
         public VoteViewModel GetVoteBySubmissionAndVoterId(Guid SubmissionId, Guid VoterId)
         {
             Vote voteEntity = this._voteRepository.Query()
@@ -64,6 +70,12 @@ namespace BusinessLogic.Services
 
         }
 
+        /// <summary>
+        /// Used to checkk if hte user has already voted and what his vote was
+        /// </summary>
+        /// <param name="CommentId">The id of the submission that was voted</param>
+        /// <param name="VoterId">The id of the user who voted</param>
+        /// <returns></returns>
         public VoteViewModel GetVoteByCommentAndVoterId(Guid CommentId, Guid VoterId)
         {
             Vote voteEntity = this._voteRepository.Query()

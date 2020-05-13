@@ -4,19 +4,21 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 
 }
+@model ViewModels.CreateSubmissionViewModel
 @using Microsoft.AspNet.Identity
 <div class="w-50 m-auto">
 
     <form method="post" action="@Url.Action("CreateSubmission","Submission")">
-
         <div class="form-group">
             <label>Title</label>
             <input name="Title" class="form-control" />
+            @Html.ValidationMessageFor(p =>p.Title ,"",new { @class="text-danger"})
         </div>
 
         <div class="form-group">
             <label>Content</label>
-            <textarea rows="5" cols="50" name="Content"></textarea>
+            <textarea rows="5" style="width:100%" name="Content"></textarea>
+            @Html.ValidationMessageFor(p =>p.Content,"",new { @class="text-danger"})
         </div>
         <input type="hidden" name="AuthorId" value="@User.Identity.GetUserId()" />
         <input type="submit" value="Save" class="btn btn-success" />

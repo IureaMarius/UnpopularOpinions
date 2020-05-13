@@ -57,7 +57,7 @@ namespace DataAccess.Repositories
             this._dbContext.Comments.Add(comment);
         }
         /// <summary>
-        /// Deletes a comment from the in-memory collection (sets teh given student entity to Deleted state) 
+        /// Deletes a comment from the in-memory collection (sets the given comment entity to Deleted state) 
         /// </summary>
         /// <param name="comment">The comment to be deleted</param>
         public void DeleteComment(Comment comment)
@@ -69,6 +69,7 @@ namespace DataAccess.Repositories
 
             RecursiveDelete(target);
         }
+        //Helper function in order to properly delete the entire comment subtree, probably should use Cascading delete for this
         private void RecursiveDelete(Comment parent)
         {
             if(parent.Replies.Count>0)

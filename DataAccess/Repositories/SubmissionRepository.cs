@@ -58,7 +58,7 @@ namespace DataAccess.Repositories
             this._dbContext.Submissions.Add(sub);
         }
         /// <summary>
-        /// Delete a submission from the in-memory collection
+        /// Delete a submission from the in-memory collection and all the top level comments on that submission
         /// </summary>
         /// <param name="sub">Submission to be removed</param>
         public void DeleteSubmission(Submission sub)

@@ -42,9 +42,9 @@
             </ul>
             
             <div class="form-inline my-2 my-lg-0">
-                <a href="@Url.Action("CreateSubmission","Submission")" class="btn btn-primary layout-button">Make a submission</a>
                 @if (Request.IsAuthenticated)
                 {
+                <a href="@Url.Action("CreateSubmission","Submission")" class="btn btn-primary layout-button">Make a submission</a>
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                     {
                         @Html.AntiForgeryToken()

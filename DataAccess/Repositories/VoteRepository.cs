@@ -15,7 +15,10 @@ namespace DataAccess.Repositories
         {
             this._dbContext = dbContext;
         }
-
+        /// <summary>
+        /// Query the database table Votes
+        /// </summary>
+        /// <returns>Queryable reference to the database table</returns>
         public IQueryable<Vote> Query()
         {
             return this._dbContext.Votes.AsQueryable();

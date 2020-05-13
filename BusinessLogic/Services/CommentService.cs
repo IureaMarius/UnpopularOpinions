@@ -23,6 +23,11 @@ namespace BusinessLogic.Services
             this._commentRepository = new CommentRepository(currentContext);
             this._userRepository = new UserRepository(currentContext);
         }
+        /// <summary>
+        /// Get a comment and it's replies sorted by controversiality
+        /// </summary>
+        /// <param name="id">Id of the requested comment</param>
+        /// <returns>The comment model</returns>
         public CommentViewModel GetCommentById(Guid id)
         {
             Comment commentEntity = this._commentRepository.GetCommentById(id);
@@ -82,6 +87,7 @@ namespace BusinessLogic.Services
         /// <param name="id">Id of the parent comment</param>
         /// <param name="skipNrOfComments">Nr of comments to skip</param>
         /// <returns>A list of CommentViewModel</returns>
+        /// used for the see replies page (CommentDetails)
         public List<CommentViewModel> Get100CommentReplies(Guid id, int skipNrOfComments)
         {
             Comment ParentComment = _commentRepository.GetCommentById(id);

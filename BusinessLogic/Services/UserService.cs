@@ -22,6 +22,11 @@ namespace BusinessLogic.Services
             _commentRepository = new CommentRepository(_dbContext);
             _submissionRepository = new SubmissionRepository(_dbContext);
         }
+        /// <summary>
+        /// Inserts user in the database
+        /// </summary>
+        /// <param name="userModel">The model of the user to be inserted</param>
+        /// <returns>The user's id</returns>
         public Guid InsertUser(CreateUserViewModel userModel)
         {
             User userEntity = new User
@@ -45,6 +50,12 @@ namespace BusinessLogic.Services
             };
             return userModel;
         }
+        /// <summary>
+        /// Get a list of 100 comments made by user with id
+        /// </summary>
+        /// <param name="id">Id of the user</param>
+        /// <param name="skipNrOfComments">Nr of comments to skip (pagination)</param>
+        /// <returns>The ViewModel with the user's information and his comments</returns>
         public UserCommentsViewModel Get100UserCommentsById(Guid id, int skipNrOfComments)
         {
             User userEntity = _userRepository.GetUserById(id);
@@ -79,6 +90,12 @@ namespace BusinessLogic.Services
 
         }
 
+        /// <summary>
+        /// Get a List of 100 submissions made by user with id
+        /// </summary>
+        /// <param name="id">Id of the user</param>
+        /// <param name="skipNrOfSubmissions">Nr of submissions to skip (pagination)</param>
+        /// <returns>The ViewModel with the user's information and his submissions</returns>
         public UserSubmissionsViewModel Get100UserSubmissionsById(Guid id,int skipNrOfSubmissions)
         {
             User userEntity = _userRepository.GetUserById(id);

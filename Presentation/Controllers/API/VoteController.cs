@@ -29,9 +29,10 @@ namespace Presentation.Controllers.API
         public IHttpActionResult CastCommentVote(VoteViewModel voteModel)
         {
             try
-            { 
+            { //if the user has already voted
                 VoteViewModel voteFromDb = _voteService.GetVoteByCommentAndVoterId(voteModel.SubOrCommId, voteModel.VoterId);
                 CommentViewModel commentModel = this._commentService.GetCommentById(voteFromDb.SubOrCommId);
+                //compares the values of the vote that was already cast and the new vote in order to prevent double voting
                 int voteValue = voteModel.VoteValue - voteFromDb.VoteValue;
                 switch(voteValue)
                 {
@@ -55,13 +56,13 @@ namespace Presentation.Controllers.API
                         break;
 
                 }
-                this._commentService.UpdateComment(commentModel);
+                this._commentService.UpdateComment(commentModel);//update the Upvotes and Downvotes count for thet comment
                 voteFromDb.VoteValue = voteModel.VoteValue;
                 _voteService.UpdateVote(voteFromDb);
                 return Ok(voteFromDb.Id);
 
             }catch(InvalidOperationException)
-            {
+            {//Invalid operation because the comment didn't exist in the database so we create it ( we don't have to do the check for removing upvotes or downvotes from the comment)
                 VoteViewModel voteToInsert = new VoteViewModel
                 {
                     Id = Guid.NewGuid(),
@@ -90,7 +91,7 @@ namespace Presentation.Controllers.API
         [Authorize]
         [HttpPut]
         public IHttpActionResult CastSubmissionVote(VoteViewModel voteModel)
-        {
+        {//if the user has already voted
             try
             { 
                 VoteViewModel voteFromDb = _voteService.GetVoteBySubmissionAndVoterId(voteModel.SubOrCommId, voteModel.VoterId);
@@ -125,7 +126,8 @@ namespace Presentation.Controllers.API
                 return Ok(voteFromDb.Id);
 
             }catch(InvalidOperationException)
-            {
+            {//Invalid operation because the comment didn't exist in the database so we create it ( we don't have to do the check for removing upvotes or downvotes from the comment)
+ 
                 VoteViewModel voteToInsert = new VoteViewModel
                 {
                     Id = Guid.NewGuid(),

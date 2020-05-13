@@ -77,6 +77,7 @@ namespace Presentation.Controllers
 
         //
         // POST: /Manage/RemoveLogin
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
@@ -98,7 +99,7 @@ namespace Presentation.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
+        */
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
