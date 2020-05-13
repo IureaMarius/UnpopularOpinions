@@ -140,6 +140,7 @@ $(document).ready(function () {
         editedSubmissionTitle = $(this).parent().find(".submission-title");
         editedSubmissionContent = $(this).parent().find(".submission-content");
         $("#MakeEdit").modal("toggle");
+        $("#EditTitle").focus();
         $("#EditContent").val(editedSubmissionContent.text());
         $("#EditTitle").val(editedSubmissionTitle.text());
         currentlyEditingId = this.id;

@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <h5 class="card-title">@Model.Text</h5>
+                    <h5 class="card-title commentText">@Model.Text</h5>
                     <h7 class="card-subtitle" onclick="window.location.href ='@Url.Action("UserSubmissions","User",new {id=Model.AuthorId,skipNrOfSubmissions=0})'">Submitted by @Model.AuthorName</h7>
                     @if (Request.IsAuthenticated)
                     {

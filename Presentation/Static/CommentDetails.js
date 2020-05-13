@@ -306,15 +306,18 @@ $(document).ready(function () {
         $("#parent").val(this.id);
         $("#parent").removeClass("submissionParent");
         $("#MakeComment").modal("toggle");
+        $("#Content").focus();
     });
     $(document).on("click", ".addComment", function () {
         $("#parent").val(this.id);
         $("#MakeComment").modal("toggle");
+        $("#Content").focus();
     });
     $(document).on("click", ".edit", function () {
         editedComment = $(this).parent().find(".commentText");
         $("#MakeEdit").modal("toggle");
         $("#EditContent").val( $(this).parent().find(".commentText").text());
+        $("#EditContent").focus();
         currentlyEditingId = this.id;
 
        });
