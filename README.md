@@ -1,5 +1,6 @@
 # UnpopularOpinions
 Iurea Marius.
+
 Proiect pentru FiiPractic .NET Fullstack.
 
 Proiectul nu are nimic in ca sa dea seed la baza de date, logativa cu contul de google si faceti niste postari si commenturi ca sa puteti
